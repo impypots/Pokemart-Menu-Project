@@ -1,12 +1,24 @@
 #container {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  height: 50%;
-  width: 50%;
+  left: 0%;
+  top: 0%;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  background-image: url("C:/Users/Owner/Documents/GitHub/Pokemart-Menu-Project/pokemartBackground.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: -10;
 }
 
 #test {
     align-items: center;
     align-content: center;
+}
+
+#textBox {
+    background-image: url("C:/Users/Owner/Documents/GitHub/Pokemart-Menu-Project/textBackground.png");
+    background-size: contain;
+    z-index: 1;
 }
