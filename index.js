@@ -12,6 +12,6 @@ let inventory = {
 
 let money = 12000
 
-document.getElementById("test").innerText = `HYPER POTION x ${inventory["HYPER POTION"]}`
+//document.getElementById("test").innerText = `HYPER POTION x ${inventory["HYPER POTION"]}`
 
 console.log(inventory)
