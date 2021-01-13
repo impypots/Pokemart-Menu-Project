@@ -27,11 +27,28 @@ body {
     margin-left: 44px;
     margin-bottom: 44px;
     color: rgba(255, 255, 255, 0.808);
-    font-size: 20px;
+    font-size: 36px;
+    word-spacing: 10px;
     font-family: sans-serif;
 }
 
 #text1 {
-    margin-top: 100px;
+    margin-top: 90px;
     margin-left: 150px;
+}
+
+#text1 div {
+    margin-left: -80px;
+    margin-top: -20px;
+    line-height: 70px;
+}
+
+#buysell {
+    background-image: url("C:/Users/Owner/Documents/GitHub/Pokemart-Menu-Project/buysell.png");
+    position: absolute;
+    z-index: 2;
+    height: 278px;
+    width: 255px;
+    top: 20px;
+    left: 100px;
 }
