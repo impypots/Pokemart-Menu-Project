@@ -2,6 +2,7 @@ let pokeicon1 = document.getElementById("pokeicon1");
 let text1FirstLine = document.querySelector("#text1 p");
 let text1SecondLine = document.querySelector("#text1 div");
 let buysell = document.getElementById("buysell");
+let textBox = document.getElementById("textBox");
 
 let inventory = {
     "HYPER POTION": 0,
@@ -56,12 +57,14 @@ function keyDownFunction(event) {
 
 //This function runs when user presses enter over 'BUY'
 function buyPath() {
-    alert("This is the 'BUY' Path!")
+    alert("This is the 'BUY' Path!");
+    textBox.style.display = 'none';
 }
 
 //This function runs when user presses enter over 'SELL'
 function sellPath() {
-    alert("This is the 'SELL' Path!")
+    alert("This is the 'SELL' Path!");
+    textBox.style.display = 'none';
 }
 
 //This function runs when user presses enter over 'QUIT'
