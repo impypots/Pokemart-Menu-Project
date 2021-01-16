@@ -58,3 +58,33 @@ body {
     top: 40px;
     left: -10px;
 }
+
+#buyPage {
+    display: none;
+    position: absolute;
+}
+
+#buyTable {
+    background-image: url("buyTable.png");
+    position: absolute;
+    top: -1050px;
+    left: 550px;
+    width: 779px;
+    height: 977px;
+    color: rgba(255, 255, 255, 0.808);
+    font-family: sans-serif;
+}
+
+#moneyicon {
+    background-image: url("moneyicon.png");
+    position: absolute;
+    top: -1050px;
+    left: 20px;
+    width: 475px;
+    height: 122px;
+    color: rgba(255, 255, 255, 0.808);
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 42px;
+    line-height: 130px;
+}

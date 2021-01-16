@@ -3,6 +3,10 @@ let text1FirstLine = document.querySelector("#text1 p");
 let text1SecondLine = document.querySelector("#text1 div");
 let buysell = document.getElementById("buysell");
 let textBox = document.getElementById("textBox");
+let pyriteAudio = document.getElementById("pyriteAudio");
+let buyPage = document.getElementById("buyPage");
+let buyTable = document.getElementById("buyTable");
+let moneyIcon = document.getElementById("moneyicon");
 
 let inventory = {
     "HYPER POTION": 0,
@@ -18,6 +22,11 @@ let inventory = {
 let money = 12000
 let pokeicon1Level = 2;
 
+var audio = new Audio('29 - Pyrite Town.mp3');
+function pyritePlay() {
+audio.play();
+}
+
 window.addEventListener("keydown", keyDownFunction)
 
 function keyDownFunction(event) {
@@ -25,6 +34,7 @@ function keyDownFunction(event) {
         if(pokeicon1Level >= 2){
             pokeicon1.style.top = '110px'
             pokeicon1Level -= 1;
+            //pyritePlay();
             //Audio(url) to be added
         } else if(pokeicon1Level === 1){
             pokeicon1.style.top = '180px'
@@ -45,7 +55,8 @@ function keyDownFunction(event) {
     }
     if(event.code == 'Enter'){
         if(pokeicon1Level === 2){
-            buyPath()
+            buyPath();
+            //pyritePlay();
         } else if (pokeicon1Level === 1){
             sellPath()
         } else if(pokeicon1Level <= 0){
@@ -59,6 +70,8 @@ function keyDownFunction(event) {
 function buyPath() {
     alert("This is the 'BUY' Path!");
     textBox.style.display = 'none';
+    buyPage.style.display = 'flex';
+    moneyIcon.innerText = `${money.toLocaleString()}`
 }
 
 //This function runs when user presses enter over 'SELL'
