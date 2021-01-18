@@ -69,8 +69,12 @@ function keyDownStart(event) {
 
 function keyDownBuy(event) {
     if(event.code == 'ArrowDown'){
-        let currentTop = parseInt(buyCursor.style.top || 130);
-        buyCursor.style.top = (currentTop + 70) + 'px';
+        console.log(parseInt(buyCursor.style.top), buyCursor.style.top)
+        if((parseInt(buyCursor.style.top) || 0) < 760){
+            let currentTop = parseInt(buyCursor.style.top || 130);
+            buyCursor.style.top = (currentTop + 70) + 'px';
+            console.log(buyCursor.style.top);
+        }
     }
 }
 
