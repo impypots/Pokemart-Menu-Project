@@ -27,9 +27,9 @@ function pyritePlay() {
 audio.play();
 }
 
-window.addEventListener("keydown", keyDownFunction)
+window.addEventListener("keydown", keyDownStart)
 
-function keyDownFunction(event) {
+function keyDownStart(event) {
     if(event.code == 'ArrowDown'){
         if(pokeicon1Level >= 2){
             pokeicon1.style.top = '110px'
