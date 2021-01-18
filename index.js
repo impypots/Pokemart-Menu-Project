@@ -7,6 +7,7 @@ let pyriteAudio = document.getElementById("pyriteAudio");
 let buyPage = document.getElementById("buyPage");
 let buyTable = document.getElementById("buyTable");
 let moneyIcon = document.getElementById("moneyicon");
+let buyCursor = document.getElementById("buyCursor")
 
 let inventory = {
     "HYPER POTION": 0,
@@ -66,12 +67,21 @@ function keyDownStart(event) {
     console.log(`key=${event.key},code=${event.code}`);
 }
 
+function keyDownBuy(event) {
+    if(event.code == 'ArrowDown'){
+        let currentTop = parseInt(buyCursor.style.top || 130);
+        buyCursor.style.top = (currentTop + 70) + 'px';
+    }
+}
+
 //This function runs when user presses enter over 'BUY'
 function buyPath() {
     alert("This is the 'BUY' Path!");
     textBox.style.display = 'none';
     buyPage.style.display = 'flex';
-    moneyIcon.innerText = `${money.toLocaleString()}`
+    moneyIcon.innerText = `${money.toLocaleString()}`;
+    window.removeEventListener("keydown", keyDownStart);
+    window.addEventListener("keydown", keyDownBuy)
 }
 
 //This function runs when user presses enter over 'SELL'
