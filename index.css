@@ -106,9 +106,49 @@ body {
     line-height: 130px;
 }
 
+#quantity {
+    position: absolute;
+    top: -910px;
+    left: 20px;
+    height: 140px;
+    width: 470px;
+    background-color: rgba(41, 34, 27, .9);
+    border: 14px solid #c0c0c0;
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.808);
+    font-size: 32px;
+    padding: 10px;
+    line-height: 60px;
+}
+
+#itemDescription {
+    position: absolute;
+    top: -430px;
+    left: 20px;
+    height: 220px;
+    width: 470px;
+    background-color: rgba(41, 34, 27, .9);
+    border: 14px solid #c0c0c0;
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.808);
+    font-size: 32px;
+    padding: 10px;
+    line-height: 60px;
+}
+
 #buyCursor {
     position: absolute;
     top: 130px;
     left: 32px;
     width: 75px;
+    z-index: 1;
+}
+
+#highlightBorder {
+    border: 3px solid #136e7e;
+    border-radius: 40px;
+    position: absolute;
+    top: -15px;
+    left: 0px;
+    height: 60px;
 }
