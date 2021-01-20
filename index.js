@@ -11,9 +11,18 @@ let buyCursor = document.getElementById("buyCursor");
 let highlightBorder = document.getElementById("highlightBorder");
 let quantity = document.getElementById("quantity");
 let itemDescription = document.getElementById("itemDescription");
+let moneyCounter = document.getElementById("moneyCounter");
+let amount = document.getElementById("amount");
+let price = document.getElementById("price");
+let buyTextBackground = document.getElementById("buyTextBackground");
+let buyFirstLine = document.getElementById("buyFirstLine");
+let buyOtherLines = document.getElementById("buyOtherLines");
+let yesno = document.getElementById("yesno");
+
 
 // Index of inventory array.
 let itemI = 0;
+let amountInt = 1;
 
 let inventory = [
     {
@@ -71,7 +80,7 @@ let inventory = [
         price: 200
     }
 ]
-let money = 12000
+let money = 1000
 let pokeicon1Level = 2;
 
 var audio = new Audio('29 - Pyrite Town.mp3');
@@ -87,7 +96,7 @@ function keyDownStart(event) {
         if(pokeicon1Level >= 2){
             pokeicon1.style.top = '110px'
             pokeicon1Level -= 1;
-            //pyritePlay();
+            pyritePlay();
             //Audio(url) to be added
         } else if(pokeicon1Level === 1){
             pokeicon1.style.top = '180px'
@@ -148,6 +157,39 @@ function keyDownBuy(event) {
         }
     } else if (event.code == 'Enter'){
         alert("You pressed enter!")
+        if(inventory[itemI].name != undefined && inventory[itemI].price <= money){
+        itemDescription.innerHTML = `${inventory[itemI].name}? <br>And how many <br>would you like?`;
+        moneyCounter.style.display = 'block';
+        amount.innerText = amountInt;
+        price.innerText = (inventory[itemI].price * amountInt).toLocaleString();
+        window.removeEventListener("keydown", keyDownBuy);
+        window.addEventListener("keydown", keyDownCount)
+        } else {
+        //return to start
+        }
+    }
+}
+
+function keyDownCount(event) {
+    if(event.code == 'ArrowDown' && amountInt > 1){
+        amountInt--;
+        amount.innerText = amountInt;
+        price.innerText = (inventory[itemI].price * amountInt).toLocaleString();
+    } else if(event.code == 'ArrowUp' && amountInt < 9 && inventory[itemI].price * (amountInt + 1) <= money){
+        amountInt++;
+        amount.innerText = amountInt;
+        price.innerText = (inventory[itemI].price * amountInt).toLocaleString();
+    } else if(event.code == 'Escape'){
+        window.removeEventListener("keydown", keyDownCount);
+        window.addEventListener("keydown", keyDownBuy);
+        moneyCounter.style.display = 'none';
+        itemDescription.innerText = inventory[itemI].description;
+        amountInt = 1;
+    } else if (event.code == 'Enter'){
+        buyTextBackground.style.display = 'block';
+        yesno.style.display = 'block';
+        buyFirstLine.innerHTML = `${inventory[itemI].name}, okay.<br>`;
+        buyOtherLines.innerHTML = `And you wanted ${amountInt}.<br>That will be ${amountInt * inventory[itemI].price}.<br>Is that okay?`
     }
 }
 

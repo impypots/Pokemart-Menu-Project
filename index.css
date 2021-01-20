@@ -136,6 +136,84 @@ body {
     line-height: 60px;
 }
 
+#moneyCounter {
+    background-image: url("moneyCounter.png");
+    width: 491px;
+    height: 171px;
+    position: absolute;
+    top: -590px;
+    left: 20px;
+    display: none;
+}
+
+#amount {
+    position: absolute;
+    top: 76px;
+    left: 126px;
+    color: rgba(255, 255, 255, 0.808);
+    font-size: 42px;
+}
+
+#price {
+    position: absolute;
+    top: 85px;
+    right: 40px;
+    color: rgba(255, 255, 255, 0.808);
+    font-size: 40px;
+}
+
+#buyTextBackground {
+    background-image: url("textBackground.png");
+    width: 1260px;
+    height: 440px;
+    position: absolute;
+    top: -530px;
+    left: 40px;
+    z-index: 2;
+    display: none;
+    color: rgba(255, 255, 255, 0.808);
+    font-size: 40px;
+}
+
+#buyFirstLine {
+    color: rgba(255, 255, 255, 0.808);
+    font-size: 40px;
+    z-index: 2;
+    position: absolute;
+    top: -450px;
+    left: 200px;
+    width: 500px;
+}
+
+#buyOtherLines {
+    color: rgba(255, 255, 255, 0.808);
+    font-size: 40px;
+    z-index: 2;
+    position: absolute;
+    top: -380px;
+    left: 110px;
+    width: 500px;
+    line-height: 68px;
+}
+
+#pokeicon2 {
+    position: absolute;
+    top: -668px;
+    left: 984px;
+    z-index: 3;
+}
+
+#yesno {
+    background-image: url("yesno.png");
+    width: 355px;
+    height: 297px;
+    position: absolute;
+    top: -750px;
+    left: 955px;
+    z-index: 2;
+    display: none;
+}
+
 #buyCursor {
     position: absolute;
     top: 130px;
