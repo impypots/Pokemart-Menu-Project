@@ -9,11 +9,14 @@ let buyPage = document.getElementById("buyPage");
 let sellPage = document.getElementById("sellPage");
 let buyTable = document.getElementById("buyTable");
 let moneyIcon = document.getElementById("moneyicon");
-let moneyIcon2 = document.getElementById("moneyicon");
+let moneyIcon2 = document.getElementById("moneyicon2");
 let buyCursor = document.getElementById("buyCursor");
+let sellCursor = document.getElementById("sellCursor");
 let highlightBorder = document.getElementById("highlightBorder");
+let highlightBorder2 = document.getElementById("highlightBorder2");
 let quantity = document.getElementById("quantity");
 let itemDescription = document.getElementById("itemDescription");
+let itemDescription2 = document.getElementById("itemDescription2");
 let moneyCounter = document.getElementById("moneyCounter");
 let amount = document.getElementById("amount");
 let price = document.getElementById("price");
@@ -22,6 +25,7 @@ let buyFirstLine = document.getElementById("buyFirstLine");
 let buyOtherLines = document.getElementById("buyOtherLines");
 let yesno = document.getElementById("yesno");
 let sellTable = document.getElementById("sellTable");
+let sellItemsQuantity = document.getElementById("sellItemsQuantity");
 
 // Index of inventory array.
 let itemI = 0;
@@ -160,13 +164,16 @@ function keyDownBuy(event) {
         }
     } else if (event.code == 'Enter'){
         alert("You pressed enter!")
-        if(itemI < 9 && inventory[itemI].price <= money){
+        if(itemI < 9){
+            if(inventory[itemI].price <= money){
         itemDescription.innerHTML = `${inventory[itemI].name}? <br>And how many <br>would you like?`;
         moneyCounter.style.display = 'block';
+        amountInt = 1;
         amount.innerText = amountInt;
         price.innerText = (inventory[itemI].price * amountInt).toLocaleString();
         window.removeEventListener("keydown", keyDownBuy);
         window.addEventListener("keydown", keyDownCount)
+            }
         } else {
             window.removeEventListener("keydown", keyDownBuy);
             window.addEventListener("keydown", keyDownStart);
@@ -219,7 +226,7 @@ function keyDownYesNo(event) {
     } else if(event.code == 'Enter'){
         if(yes){
             money = money - (amountInt * inventory[itemI].price);
-            inventory[itemI].quantity += 1;
+            inventory[itemI].quantity += amountInt;
             quantity.innerHTML = `Quantity held <br> ${inventory[itemI].name}x${inventory[itemI].quantity}`;
             moneyIcon.innerText = `${money.toLocaleString()}`;
             window.removeEventListener("keydown", keyDownYesNo);
@@ -246,6 +253,28 @@ function keyDownYesNo(event) {
     }
 }
 
+function keyDownSell(event) {
+    let currentCursor = parseInt(sellCursor.style.top || 248);
+    let currentBorder = parseInt(highlightBorder2.style.top || 345);
+    if(event.code == "ArrowDown" && currentCursor <= 675){
+        sellCursor.style.top = (currentCursor + 61) + 'px';
+        highlightBorder2.style.top = (currentBorder + 61) + 'px';
+        itemI++;
+        itemDescription2.innerText = inventory[itemI].description;
+        console.log(itemI)
+    } else if(event.code == 'ArrowUp' && currentCursor > 248){
+        sellCursor.style.top = (currentCursor - 61) + 'px';
+        highlightBorder2.style.top = (currentBorder - 61) + 'px';
+        itemI--;
+        itemDescription2.innerText = inventory[itemI].description;
+        console.log(currentCursor)
+    } else if(event.code == 'Enter'){
+
+    } else if(event.code == 'Escape'){
+        alert("You pressed escape!")
+    }
+}
+
 //This function runs when user presses enter over 'BUY'
 function buyPath() {
     alert("This is the 'BUY' Path!");
@@ -253,7 +282,7 @@ function buyPath() {
     buyPage.style.display = 'flex';
     moneyIcon.innerText = `${money.toLocaleString()}`;
     quantity.innerHTML = `Quantity held <br> ${inventory[0].name}x${inventory[0].quantity}`;
-    itemDescription.innerText = inventory[0].description
+    itemDescription.innerText = inventory[0].description;
     window.removeEventListener("keydown", keyDownStart);
     window.addEventListener("keydown", keyDownBuy);
 }
@@ -261,10 +290,17 @@ function buyPath() {
 //This function runs when user presses enter over 'SELL'
 function sellPath() {
     alert("This is the 'SELL' Path!");
+    console.log(inventory[4].quantity)
     textBox.style.display = 'none';
     sellPage.style.display = 'flex';
-    moneyIcon2.innerText = money.toLocaleString();
+    moneyIcon2.innerHTML = `${money.toLocaleString()}`;
+    itemI = 0;
+    itemDescription2.innerText = inventory[itemI].description;
+    for(let i = 0; i < inventory.length; i++){
+        sellItemsQuantity.innerHTML += `<p>X ${inventory[i].quantity} </p>`;
+    }
     window.removeEventListener("keydown", keyDownStart);
+    window.addEventListener("keydown", keyDownSell);
 }
 
 //This function runs when user presses enter over 'QUIT'
