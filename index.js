@@ -1,12 +1,15 @@
 let pokeicon1 = document.getElementById("pokeicon1");
+let pokeicon2 = document.getElementById("pokeicon2");
 let text1FirstLine = document.querySelector("#text1 p");
 let text1SecondLine = document.querySelector("#text1 div");
 let buysell = document.getElementById("buysell");
 let textBox = document.getElementById("textBox");
 let pyriteAudio = document.getElementById("pyriteAudio");
 let buyPage = document.getElementById("buyPage");
+let sellPage = document.getElementById("sellPage");
 let buyTable = document.getElementById("buyTable");
 let moneyIcon = document.getElementById("moneyicon");
+let moneyIcon2 = document.getElementById("moneyicon");
 let buyCursor = document.getElementById("buyCursor");
 let highlightBorder = document.getElementById("highlightBorder");
 let quantity = document.getElementById("quantity");
@@ -18,7 +21,7 @@ let buyTextBackground = document.getElementById("buyTextBackground");
 let buyFirstLine = document.getElementById("buyFirstLine");
 let buyOtherLines = document.getElementById("buyOtherLines");
 let yesno = document.getElementById("yesno");
-
+let sellTable = document.getElementById("sellTable");
 
 // Index of inventory array.
 let itemI = 0;
@@ -96,7 +99,7 @@ function keyDownStart(event) {
         if(pokeicon1Level >= 2){
             pokeicon1.style.top = '110px'
             pokeicon1Level -= 1;
-            pyritePlay();
+            //pyritePlay();
             //Audio(url) to be added
         } else if(pokeicon1Level === 1){
             pokeicon1.style.top = '180px'
@@ -132,7 +135,7 @@ function keyDownBuy(event) {
     let currentCursor = parseInt(buyCursor.style.top || 130);
     let currentBorder = parseInt(highlightBorder.style.top || -15);
     if(event.code == 'ArrowDown'){
-        console.log(parseInt(buyCursor.style.top), buyCursor.style.top)
+        console.log(parseInt(buyCursor.style.top), buyCursor.style.top, itemI)
         if((parseInt(buyCursor.style.top) || 0) < 760){
             buyCursor.style.top = (currentCursor + 70) + 'px';
             highlightBorder.style.top = (currentBorder + 70) + 'px'
@@ -157,7 +160,7 @@ function keyDownBuy(event) {
         }
     } else if (event.code == 'Enter'){
         alert("You pressed enter!")
-        if(inventory[itemI].name != undefined && inventory[itemI].price <= money){
+        if(itemI < 9 && inventory[itemI].price <= money){
         itemDescription.innerHTML = `${inventory[itemI].name}? <br>And how many <br>would you like?`;
         moneyCounter.style.display = 'block';
         amount.innerText = amountInt;
@@ -165,7 +168,12 @@ function keyDownBuy(event) {
         window.removeEventListener("keydown", keyDownBuy);
         window.addEventListener("keydown", keyDownCount)
         } else {
-        //return to start
+            window.removeEventListener("keydown", keyDownBuy);
+            window.addEventListener("keydown", keyDownStart);
+            textBox.style.display = 'block';
+            buyPage.style.display = 'none';
+            text1FirstLine.innerHTML = 'May I help you with anything else?';
+            text1SecondLine.innerHTML = '';
         }
     }
 }
@@ -188,8 +196,53 @@ function keyDownCount(event) {
     } else if (event.code == 'Enter'){
         buyTextBackground.style.display = 'block';
         yesno.style.display = 'block';
+        pokeicon2.style.display = 'block';
+        pokeicon2.style.top = '-668px';
+        buyFirstLine.style.display = 'inline';
+        buyOtherLines.style.display = 'inline';
         buyFirstLine.innerHTML = `${inventory[itemI].name}, okay.<br>`;
-        buyOtherLines.innerHTML = `And you wanted ${amountInt}.<br>That will be ${amountInt * inventory[itemI].price}.<br>Is that okay?`
+        buyOtherLines.innerHTML = `And you wanted ${amountInt}.<br>That will be ${amountInt * inventory[itemI].price}.<br>Is that okay?`;
+        window.removeEventListener("keydown", keyDownCount);
+        window.addEventListener("keydown", keyDownYesNo);
+    }
+}
+
+let yes = true;
+function keyDownYesNo(event) {
+    if(event.code == 'ArrowDown'){
+        pokeicon2.style.top = '-588px';
+        yes = false;
+        console.log(yes)
+    } else if(event.code == 'ArrowUp'){
+        pokeicon2.style.top = '-668px';
+        yes = true;
+    } else if(event.code == 'Enter'){
+        if(yes){
+            money = money - (amountInt * inventory[itemI].price);
+            inventory[itemI].quantity += 1;
+            quantity.innerHTML = `Quantity held <br> ${inventory[itemI].name}x${inventory[itemI].quantity}`;
+            moneyIcon.innerText = `${money.toLocaleString()}`;
+            window.removeEventListener("keydown", keyDownYesNo);
+            window.addEventListener("keydown", keyDownBuy);
+            yesno.style.display = 'none';
+            pokeicon2.style.display = 'none';
+            buyTextBackground.style.display = 'none';
+            buyFirstLine.style.display = 'none';
+            buyOtherLines.style.display = 'none';
+            moneyCounter.style.display = 'none';
+            console.log(pokeicon2.style.top)
+        } else if(!yes) {
+            window.removeEventListener("keydown", keyDownYesNo);
+            window.addEventListener("keydown", keyDownBuy);
+            yesno.style.display = 'none';
+            pokeicon2.style.display = 'none';
+            buyTextBackground.style.display = 'none';
+            buyFirstLine.style.display = 'none';
+            buyOtherLines.style.display = 'none';
+            moneyCounter.style.display = 'none';
+            console.log(yes);
+            yes = true;
+        }
     }
 }
 
@@ -209,6 +262,9 @@ function buyPath() {
 function sellPath() {
     alert("This is the 'SELL' Path!");
     textBox.style.display = 'none';
+    sellPage.style.display = 'flex';
+    moneyIcon2.innerText = money.toLocaleString();
+    window.removeEventListener("keydown", keyDownStart);
 }
 
 //This function runs when user presses enter over 'QUIT'
@@ -221,4 +277,4 @@ function quitPath() {
 }
 
 
-console.log(inventory)
+console.log(inventory);
