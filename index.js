@@ -1,5 +1,6 @@
 let pokeicon1 = document.getElementById("pokeicon1");
 let pokeicon2 = document.getElementById("pokeicon2");
+let pokeicon3 = document.getElementById("pokeicon3");
 let text1FirstLine = document.querySelector("#text1 p");
 let text1SecondLine = document.querySelector("#text1 div");
 let buysell = document.getElementById("buysell");
@@ -18,12 +19,19 @@ let quantity = document.getElementById("quantity");
 let itemDescription = document.getElementById("itemDescription");
 let itemDescription2 = document.getElementById("itemDescription2");
 let moneyCounter = document.getElementById("moneyCounter");
+let moneyCounter2 = document.getElementById("moneyCounter2");
 let amount = document.getElementById("amount");
+let amount2 = document.getElementById("amount2");
 let price = document.getElementById("price");
+let price2 = document.getElementById("price2");
 let buyTextBackground = document.getElementById("buyTextBackground");
 let buyFirstLine = document.getElementById("buyFirstLine");
 let buyOtherLines = document.getElementById("buyOtherLines");
+let sellTextBackground = document.getElementById("sellTextBackground");
+let sellFirstLine = document.getElementById("sellFirstLine");
+let sellOtherLines = document.getElementById("sellOtherLines");
 let yesno = document.getElementById("yesno");
+let yesno2 = document.getElementById("yesno2");
 let sellTable = document.getElementById("sellTable");
 let sellItemsQuantity = document.getElementById("sellItemsQuantity");
 
@@ -34,7 +42,7 @@ let amountInt = 1;
 let inventory = [
     {
         name: "HYPER POTION",
-        quantity: 0,
+        quantity: 4,
         description: "Restores the HP of a POKeMON by 200 points.",
         price: 1200
     },
@@ -46,13 +54,13 @@ let inventory = [
     },
     {
         name: "FULL HEAL",
-        quantity: 0,
+        quantity: 1,
         description: "Heals all the status problems of one POKeMON.",
         price: 600
     },
     {
         name: "REVIVE",
-        quantity: 0,
+        quantity: 2,
         description: "Revives a fainted POKeMON with half its HP.",
         price: 1500
     },
@@ -214,6 +222,33 @@ function keyDownCount(event) {
     }
 }
 
+function keyDownCountSell(event) {
+    if(event.code == 'ArrowUp' && amountInt < inventory[itemI].quantity && amountInt < 9){
+        amountInt++;
+        amount2.innerText = amountInt;
+        price2.innerText = ((inventory[itemI].price / 2) * amountInt).toLocaleString();
+    } else if(event.code == 'ArrowDown' && amountInt > 1){
+        amountInt--;
+        amount2.innerText = amountInt;
+        price2.innerText = ((inventory[itemI].price / 2) * amountInt).toLocaleString();
+    } else if(event.code == 'Escape'){
+        window.removeEventListener("keydown", keyDownCountSell);
+        window.addEventListener("keydown", keyDownSell);
+        itemDescription2.innerText = inventory[itemI].description;
+        moneyCounter2.style.display = 'none';
+        amountInt = 1;
+    } else if(event.code == 'Enter'){
+        sellTextBackground.style.display = 'block';
+        yesno2.style.display = 'block';
+        pokeicon3.style.display = 'block';
+        moneyCounter2.style.display = 'none';
+        sellFirstLine.innerText = `We can pay you ${((inventory[itemI].price / 2) * amountInt).toLocaleString()} for`;
+        sellOtherLines.innerHTML = `your merchandise.<br>Is that okay?`
+        window.removeEventListener("keydown", keyDownCountSell);
+        window.addEventListener("keydown", keyDownYesNoSell);
+    }
+}
+
 let yes = true;
 function keyDownYesNo(event) {
     if(event.code == 'ArrowDown'){
@@ -253,6 +288,16 @@ function keyDownYesNo(event) {
     }
 }
 
+function keyDownYesNoSell(event) {
+    if(event.code == 'Enter'){
+        if(yes){
+        inventory[itemI].quantity -= amountInt;
+        money += (inventory[itemI].price / 2) * amountInt;
+        moneyIcon2.innerText = money.toLocaleString();
+        }
+    }
+}
+
 function keyDownSell(event) {
     let currentCursor = parseInt(sellCursor.style.top || 248);
     let currentBorder = parseInt(highlightBorder2.style.top || 345);
@@ -269,7 +314,16 @@ function keyDownSell(event) {
         itemDescription2.innerText = inventory[itemI].description;
         console.log(currentCursor)
     } else if(event.code == 'Enter'){
-
+        if(inventory[itemI].quantity > 0){
+            itemDescription2.innerHTML = `${inventory[itemI].name}?<br>And how many would<br>you like to sell?`;
+            moneyCounter2.style.display = 'block';
+            price2.innerText = inventory[itemI].price / 2;
+            amountInt = 1;
+            amount2.innerText = amountInt;
+            window.removeEventListener("keydown", keyDownSell);
+            window.addEventListener("keydown", keyDownCountSell)
+            console.log("yessssss")
+        }
     } else if(event.code == 'Escape'){
         alert("You pressed escape!")
     }
