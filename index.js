@@ -111,7 +111,7 @@ function keyDownStart(event) {
         if(pokeicon1Level >= 2){
             pokeicon1.style.top = '110px'
             pokeicon1Level -= 1;
-            //pyritePlay();
+            pyritePlay();
             //Audio(url) to be added
         } else if(pokeicon1Level === 1){
             pokeicon1.style.top = '180px'
@@ -241,9 +241,13 @@ function keyDownCountSell(event) {
         sellTextBackground.style.display = 'block';
         yesno2.style.display = 'block';
         pokeicon3.style.display = 'block';
+        pokeicon3.style.top = '420px';
+        yes = true;
         moneyCounter2.style.display = 'none';
         sellFirstLine.innerText = `We can pay you ${((inventory[itemI].price / 2) * amountInt).toLocaleString()} for`;
-        sellOtherLines.innerHTML = `your merchandise.<br>Is that okay?`
+        sellOtherLines.innerHTML = `your merchandise.<br>Is that okay?`;
+        sellFirstLine.style.display = 'block';
+        sellOtherLines.style.display = 'block';
         window.removeEventListener("keydown", keyDownCountSell);
         window.addEventListener("keydown", keyDownYesNoSell);
     }
@@ -289,11 +293,43 @@ function keyDownYesNo(event) {
 }
 
 function keyDownYesNoSell(event) {
-    if(event.code == 'Enter'){
+    if(event.code == 'ArrowDown'){
+        pokeicon3.style.top = '500px'
+        yes = false;
+    } else if (event.code == 'ArrowUp'){
+        pokeicon3.style.top = '420px';
+        yes = true;
+    } else if(event.code == 'Enter'){
         if(yes){
         inventory[itemI].quantity -= amountInt;
         money += (inventory[itemI].price / 2) * amountInt;
         moneyIcon2.innerText = money.toLocaleString();
+        console.log(inventory[itemI].quantity);
+        yesno2.style.display = 'none';
+        pokeicon3.style.display = 'none';
+        sellFirstLine.innerText = `Received ${((inventory[itemI].price / 2) * amountInt).toLocaleString()} for the`;
+        sellOtherLines.innerHTML = `${inventory[itemI].name} sale.`;
+        sellItemsQuantity.innerHTML = ``;
+        for(let i = 0; i < inventory.length; i++){
+            sellItemsQuantity.innerHTML += `<p>X ${inventory[i].quantity} </p>`;
+        }
+        window.removeEventListener("keydown", keyDownYesNoSell);
+        setTimeout(()=> {
+            sellTextBackground.style.display = 'none';
+            sellFirstLine.style.display = 'none';
+            sellOtherLines.style.display = 'none';
+            itemDescription2.innerHTML = `${inventory[itemI].description}`;
+            window.addEventListener("keydown", keyDownSell);
+        }, 1500)
+        } else {
+            sellTextBackground.style.display = 'none';
+            sellFirstLine.style.display = 'none';
+            sellOtherLines.style.display = 'none';
+            yesno2.style.display = 'none';
+            pokeicon3.style.display = 'none';
+            itemDescription2.innerHTML = `${inventory[itemI].description}`;
+            window.removeEventListener("keydown", keyDownYesNoSell);
+            window.addEventListener("keydown", keyDownSell);
         }
     }
 }
@@ -325,7 +361,14 @@ function keyDownSell(event) {
             console.log("yessssss")
         }
     } else if(event.code == 'Escape'){
-        alert("You pressed escape!")
+        window.removeEventListener("keydown", keyDownBuy);
+        window.addEventListener("keydown", keyDownStart);
+        textBox.style.display = 'block';
+        sellPage.style.display = 'none';
+        text1FirstLine.innerHTML = 'May I help you with anything else?';
+        text1SecondLine.innerHTML = '';
+
+        // last part right here!
     }
 }
 
