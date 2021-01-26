@@ -37,8 +37,10 @@ let sellItemsQuantity = document.getElementById("sellItemsQuantity");
 
 // Index of inventory array.
 let itemI = 0;
+// Represents the number of chosen item to be bought/sold.
 let amountInt = 1;
 
+// This array holds all item objects.
 let inventory = [
     {
         name: "HYPER POTION",
@@ -95,7 +97,9 @@ let inventory = [
         price: 200
     }
 ]
-let money = 1000
+
+// Amount of currency available to user.
+let money = 5000
 let pokeicon1Level = 2;
 
 var audio = new Audio('29 - Pyrite Town.mp3');
@@ -103,55 +107,50 @@ function pyritePlay() {
 audio.play();
 }
 
-console.log(inventory[0].description)
 window.addEventListener("keydown", keyDownStart)
 
+// Function in effect on page start.
 function keyDownStart(event) {
     if(event.code == 'ArrowDown'){
         if(pokeicon1Level >= 2){
             pokeicon1.style.top = '110px'
             pokeicon1Level -= 1;
             pyritePlay();
-            //Audio(url) to be added
         } else if(pokeicon1Level === 1){
             pokeicon1.style.top = '180px'
             pokeicon1Level -= 1;
-            //Audio(url) to be added
         }
     }
     if(event.code == 'ArrowUp'){
         if(pokeicon1Level <= 0){
             pokeicon1.style.top = '110px'
             pokeicon1Level += 1;
-            //Audio(url) to be added
         } else if(pokeicon1Level === 1){
             pokeicon1.style.top = '40px'
             pokeicon1Level += 1;
-            //Audio(url) to be added
         }
     }
     if(event.code == 'Enter'){
         if(pokeicon1Level === 2){
             buyPath();
-            //pyritePlay();
+            pyritePlay();
         } else if (pokeicon1Level === 1){
             sellPath()
         } else if(pokeicon1Level <= 0){
             quitPath()
         }
     }
-    console.log(`key=${event.key},code=${event.code}`);
 }
 
+// Function active on Buy Path until Enter is pressed.
 function keyDownBuy(event) {
     let currentCursor = parseInt(buyCursor.style.top || 130);
     let currentBorder = parseInt(highlightBorder.style.top || -15);
     if(event.code == 'ArrowDown'){
-        console.log(parseInt(buyCursor.style.top), buyCursor.style.top, itemI)
+        console.log(buyCursor.style.top)
         if((parseInt(buyCursor.style.top) || 0) < 760){
             buyCursor.style.top = (currentCursor + 70) + 'px';
             highlightBorder.style.top = (currentBorder + 70) + 'px'
-            console.log(buyCursor.style.top);
             if(parseInt(buyCursor.style.top) < 760){
                 itemI++;
             quantity.innerHTML = `Quantity held <br> ${inventory[itemI].name}x${inventory[itemI].quantity}`;
@@ -171,7 +170,6 @@ function keyDownBuy(event) {
             highlightBorder.style.top = (currentBorder - 70) + 'px';
         }
     } else if (event.code == 'Enter'){
-        alert("You pressed enter!")
         if(itemI < 9){
             if(inventory[itemI].price <= money){
         itemDescription.innerHTML = `${inventory[itemI].name}? <br>And how many <br>would you like?`;
@@ -193,6 +191,7 @@ function keyDownBuy(event) {
     }
 }
 
+// Function that allows user to select the number of items they would like to buy.
 function keyDownCount(event) {
     if(event.code == 'ArrowDown' && amountInt > 1){
         amountInt--;
@@ -222,6 +221,7 @@ function keyDownCount(event) {
     }
 }
 
+// Function that allows user to select the number of items they would like to sell.
 function keyDownCountSell(event) {
     if(event.code == 'ArrowUp' && amountInt < inventory[itemI].quantity && amountInt < 9){
         amountInt++;
@@ -253,17 +253,18 @@ function keyDownCountSell(event) {
     }
 }
 
+// Final chance to cancel purchase.
 let yes = true;
 function keyDownYesNo(event) {
     if(event.code == 'ArrowDown'){
         pokeicon2.style.top = '-588px';
         yes = false;
-        console.log(yes)
     } else if(event.code == 'ArrowUp'){
         pokeicon2.style.top = '-668px';
         yes = true;
     } else if(event.code == 'Enter'){
         if(yes){
+            console.log(amountInt)
             money = money - (amountInt * inventory[itemI].price);
             inventory[itemI].quantity += amountInt;
             quantity.innerHTML = `Quantity held <br> ${inventory[itemI].name}x${inventory[itemI].quantity}`;
@@ -276,7 +277,6 @@ function keyDownYesNo(event) {
             buyFirstLine.style.display = 'none';
             buyOtherLines.style.display = 'none';
             moneyCounter.style.display = 'none';
-            console.log(pokeicon2.style.top)
         } else if(!yes) {
             window.removeEventListener("keydown", keyDownYesNo);
             window.addEventListener("keydown", keyDownBuy);
@@ -286,12 +286,12 @@ function keyDownYesNo(event) {
             buyFirstLine.style.display = 'none';
             buyOtherLines.style.display = 'none';
             moneyCounter.style.display = 'none';
-            console.log(yes);
             yes = true;
         }
     }
 }
 
+// Final chance to cancel sale.
 function keyDownYesNoSell(event) {
     if(event.code == 'ArrowDown'){
         pokeicon3.style.top = '500px'
@@ -334,6 +334,7 @@ function keyDownYesNoSell(event) {
     }
 }
 
+// Function active on Sell Page until pressing Enter or Escape.
 function keyDownSell(event) {
     let currentCursor = parseInt(sellCursor.style.top || 248);
     let currentBorder = parseInt(highlightBorder2.style.top || 345);
@@ -367,16 +368,16 @@ function keyDownSell(event) {
         sellPage.style.display = 'none';
         text1FirstLine.innerHTML = 'May I help you with anything else?';
         text1SecondLine.innerHTML = '';
-
-        // last part right here!
     }
 }
 
 //This function runs when user presses enter over 'BUY'
 function buyPath() {
-    alert("This is the 'BUY' Path!");
+    itemI = 0;
     textBox.style.display = 'none';
     buyPage.style.display = 'flex';
+    buyCursor.style.top = '130px';
+    highlightBorder.style.top = '-15px'
     moneyIcon.innerText = `${money.toLocaleString()}`;
     quantity.innerHTML = `Quantity held <br> ${inventory[0].name}x${inventory[0].quantity}`;
     itemDescription.innerText = inventory[0].description;
@@ -385,29 +386,36 @@ function buyPath() {
 }
 
 //This function runs when user presses enter over 'SELL'
+// This variable is false after this function has run the first time.
+let firstTime = true;
 function sellPath() {
-    alert("This is the 'SELL' Path!");
-    console.log(inventory[4].quantity)
     textBox.style.display = 'none';
     sellPage.style.display = 'flex';
+    yesno2.style.display = 'none';
+    moneyCounter2.style.display = 'none';
+    pokeicon3.style.display = 'none';
+    sellCursor.style.top = '248px';
+    highlightBorder2.style.top = '345px';
     moneyIcon2.innerHTML = `${money.toLocaleString()}`;
     itemI = 0;
     itemDescription2.innerText = inventory[itemI].description;
-    for(let i = 0; i < inventory.length; i++){
-        sellItemsQuantity.innerHTML += `<p>X ${inventory[i].quantity} </p>`;
+
+    if(firstTime){
+        for(let i = 0; i < inventory.length; i++){
+            sellItemsQuantity.innerHTML += `<p>X ${inventory[i].quantity} </p>`;
+            firstTime = false;
+        }
     }
+   
     window.removeEventListener("keydown", keyDownStart);
     window.addEventListener("keydown", keyDownSell);
 }
 
 //This function runs when user presses enter over 'QUIT'
 function quitPath() {
-    alert("This is the 'QUIT' Path!");
     text1FirstLine.innerText = "We look forward to your next ";
     text1SecondLine.innerText = 'visit.'
     window.removeEventListener("keydown", keyDownStart);
     buysell.style.display = 'none';
 }
 
-
-console.log(inventory);

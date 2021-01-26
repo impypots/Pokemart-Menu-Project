@@ -1,2 +1,2 @@
 # Pokemart-Menu-Project
- 
+This project is a mostly accurate reproduction of the item shop interface from the GameCube game Pokemon: Collosseum. The user may choose to 'BUY', 'SELL', or 'QUIT', each option changing the displayed text and menus. If 'BUY' is chosen, the user may select from the items the shop has available and buy them if they have enough money. In 'SELL', they may sell items they have in their inventory and be paid half the store price of the item multiplied by the quantity of the item sold. The money and items the user has is updated everytime something is sold or bought, ensuring that it is correct and consistent between the different menus.
