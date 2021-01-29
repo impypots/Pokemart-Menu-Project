@@ -99,7 +99,7 @@ let inventory = [
 ]
 
 // Amount of currency available to user.
-let money = 5000
+let money = 6000
 let pokeicon1Level = 2;
 
 var audio = new Audio('29 - Pyrite Town.mp3');
