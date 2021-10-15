@@ -7,7 +7,7 @@ body {
   flex-direction: column-reverse;
   height: 1080px;
   
-  background-image: url("C:/Users/Owner/Documents/GitHub/Pokemart-Menu-Project/pokemartBackground.png");
+  background-image: url("pokemartBackground.png");
   background-repeat: no-repeat;
   background-size: contain;
   z-index: -1;
@@ -19,7 +19,7 @@ body {
 }
 
 #textBox {
-    background-image: url("C:/Users/Owner/Documents/GitHub/Pokemart-Menu-Project/textBackground.png");
+    background-image: url("textBackground.png");
     background-size: cover;
     z-index: 1;
     height: 440px;
@@ -44,7 +44,7 @@ body {
 }
 
 #buysell {
-    background-image: url("C:/Users/Owner/Documents/GitHub/Pokemart-Menu-Project/buysell.png");
+    background-image: url("buysell.png");
     position: absolute;
     z-index: 2;
     height: 278px;
